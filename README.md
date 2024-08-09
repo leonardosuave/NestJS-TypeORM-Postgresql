@@ -94,31 +94,15 @@ Install Postgresql database and ORM Prisma
 $ docker-compose -f compose_db.yml up
 ```
 
-Install ORM Prisma
+Install TypeOrm
 ```bash
-# install ORM
-$ npm i -D prisma
+# install ORM, driver database and nestjs typeorm
+$ npm i typeorm pg @nestjs/typeorm
 
-# to start app with a new database 
-# will do the first configuration and add a files prisma (schema)
-$ npx prisma init
-
-#Creating tables
-# 1 option - Create table in IDE line DBEAVER and after run the commands
-
-# Will pull the table created and will build the table model in schema.prisma
-$ prisma db pull
-
-# This command need to be runed aways that model is edited. will update the PrismaClient()
-$ prisma generate
-
-# 2 option - Create table model and run by migrate
-# In the file schema.prisma, create a model with the table config
-# Run the command and write a name to migrate file
-$ npx prisma migrate dev
-
-# Create a prisma fold and create prisma.module.ts and prisma.service.ts
-#In prisma.service.ts need to have the config to do connection with database and the config to close the connection with database (onModuleInit / enableShutdownHooks)
+# Config to connect database when run the application
+  # In app.module.ts, import TypeOrmModule.forRoot({}) and pass the object with the params to connect in database, like host, port, database, username.... (option synchronize will delete the register if true, so add validate to be true only local or local/dev).
+  # Create the entities in the fold with modules,controller and service or do the specific folder to entities.
+  # To use the entity database in the service, go to the each module that will use, like user.module.ts and import the entity like TypeOrmModule.forFeature([UserEntity, another entity...])
 ```
 
 ## Creating entity to a route

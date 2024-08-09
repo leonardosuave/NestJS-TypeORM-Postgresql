@@ -5,25 +5,27 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthLoginDTO } from './dto/auth-login.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { ForgetPasswordDTO } from './dto/forget-password.dto';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
-import { User } from '@prisma/client';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer/dist';
+import { UserEntity } from 'src/user/entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly mailer: MailerService,
   ) {}
 
-  createToken(user: User) {
+  createToken(user: UserEntity) {
     return {
       accessToken: this.jwtService.sign(
         {
@@ -49,7 +51,7 @@ export class AuthService {
         issuer: 'login',
       });
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException({ error });
     }
   }
 
@@ -63,9 +65,7 @@ export class AuthService {
   }
 
   async login({ email, password }: AuthLoginDTO) {
-    const user = await this.prisma.user.findFirst({
-      where: { email },
-    });
+    const user = await this.usersRepository.findOneBy({ email });
 
     if (!user) {
       throw new UnauthorizedException('Email not found.');
@@ -80,9 +80,7 @@ export class AuthService {
   }
 
   async forgetPassword({ email }: ForgetPasswordDTO) {
-    const user = await this.prisma.user.findFirst({
-      where: { email },
-    });
+    const user = await this.usersRepository.findOneBy({ email });
 
     if (!user) {
       throw new UnauthorizedException('Email incorrect.');
@@ -124,10 +122,11 @@ export class AuthService {
       });
 
       const hashPassword = await this.userService.hashPassword(password);
-      const user = await this.prisma.user.update({
-        data: { password: hashPassword },
-        where: { id },
+      await this.usersRepository.update(id, {
+        password: hashPassword,
       });
+
+      const user = await this.userService.getOne(id);
 
       return this.createToken(user);
     } catch (error) {

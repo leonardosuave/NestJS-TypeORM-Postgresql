@@ -1,4 +1,4 @@
-import { IsEmail, IsJWT, IsStrongPassword } from 'class-validator';
+import { IsJWT, IsStrongPassword } from 'class-validator';
 
 export class ResetPasswordDTO {
   @IsJWT()

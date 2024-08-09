@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -43,7 +42,7 @@ export class UserController {
     return this.UserService.getOne(id);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MASTER)
   @Patch(':id')
   async updatePartial(
     @Body() { email, name, password, role }: UpdatePatchUserDTO,
