@@ -21,7 +21,8 @@
     "typeorm:ts": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "npm run typeorm:ts migration:create -- ./typeorm/migrations/Migrate",
     "migration:up": "npm run typeorm:ts migration:run -- -d ./typeorm/data-source.ts",
-    "migration:down": "npm run typeorm:ts migration:revert -- -d ./typeorm/data-source.ts"
+    "migration:down": "npm run typeorm:ts migration:revert -- -d ./typeorm/data-source.ts",
+    "seed:run": "ts-node -r tsconfig-paths/register src/seed/seed-runner.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
