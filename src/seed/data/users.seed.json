@@ -1,0 +1,20 @@
+ [ 
+  {
+    "name": "Leonardo 1",
+    "email": "leonardo1@email.com",
+    "password": "Senha@123",
+    "role": "ADMIN"
+  },
+  {
+    "name": "Leonardo 2",
+    "email": "leonardo2@email.com",
+    "password": "Senha@123",
+    "role": "NORMAL"
+  },
+  {
+    "name": "Leonardo Suave",
+    "email": "leonardo@email.com",
+    "password": "Senha@123",
+    "role": "MASTER"
+  }
+]
