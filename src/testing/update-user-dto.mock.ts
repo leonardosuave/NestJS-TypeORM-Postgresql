@@ -11,4 +11,4 @@ export const updateUserDTO: UpdateUserDTO = {
 
 export const updatePatchDTO: UpdatePatchUserDTO = {
   name: 'New Leonardo Suave',
-}
+};
