@@ -18,13 +18,14 @@ export class UserService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async create({ email, name, password }: CreateUserDTO) {
+  async create({ email, name, password, role }: CreateUserDTO) {
     password = await this.hashPassword(password);
 
     const user = this.usersRepository.create({
       email,
       name,
       password,
+      role,
     });
 
     // First do the instance of operating database and after pass the variable or pass the variables into a array to do a lot of register(can pass a lot of instance like bulkCreate)
