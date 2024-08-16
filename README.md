@@ -303,3 +303,24 @@ $ npm i typeorm pg @nestjs/typeorm
     });
 
     In context pass the variables used in template file. 
+
+## Unit Tests
+  To start the tests, create files .spec.ts into src (This config to search files on src folder need to be into jest config in the package.json).
+  The services to test need to be imported by relative path, so CTRL+SHIFT+P, write JSON and click on "Preferences: Open User Settings(JSON)" and into this file put the follow config:
+    "typescript.preferences.importModuleSpecifier": "relative"
+
+  ### Fist config to test and Mocks
+    Create into describe a hook beforeEach to run beforer each test and simulate a module test.
+    - To create a module, create a const module with type TestingModule and call Test.createTestingModule({providers: []}). compile();
+        providers: Is the services to test and mocks.
+        compile() to the test module be existed.
+    - To create a Mock (simulate the constructor injectable from the service class), create a object with objects provide and useValue.
+        provide: It will pass getRepositoryToken() and this will received in parameter the entity  from the @InkectRepository fro the constructor class service. 
+        useValue: It are all methods from repository called in the service, like userRepository is the called to database, so values are the methods create, save, find .....
+          each value is a object with value jest.fn()
+    Create de definition of the services imported on providers to have access the methods of the service
+      create a let outside beforeEach to have acces in all test file.
+        ex: let userService: UserService;
+      After extract the things from the service
+        ex: userService = module.get<UserService>(UserService)
+
