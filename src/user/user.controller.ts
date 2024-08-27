@@ -14,10 +14,10 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto';
 import { UserService } from './user.service';
-import { RoleGuard } from 'src/guards/role.guard';
-import { Role } from 'src/enums/role.enum';
-import { Roles } from 'src/decorators/role.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
+import { Role } from '../enums/role.enum';
+import { Roles } from '../decorators/role.decorator';
 
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')

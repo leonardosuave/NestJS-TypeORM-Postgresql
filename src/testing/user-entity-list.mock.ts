@@ -3,11 +3,11 @@ import { UserEntity } from '../user/entity/user.entity';
 
 export const userEntityList: UserEntity[] = [
   {
-    id: 'afb97271-33bf-4784-a781-4da57b13f5a9',
+    id: '4439b775-9520-484e-9660-97f8635fa37d',
     name: 'Leonardo Suave',
     email: 'leonardo@email.com',
     password: '$2b$10$ZktbCuQNvONU4dnEfvZhbeh4UkB9QbdCzv/JcvbRP7bLA3ICcSVAa',
-    role: Role.ADMIN,
+    role: Role.MASTER,
   },
   {
     id: 'afb97271-33bf-4784-a781-4da57b13f5a8',

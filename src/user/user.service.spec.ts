@@ -15,6 +15,7 @@ describe('UserService', () => {
     // Create the module with providers to test (Environment test is separated from aplication so need create the module again)
 
     const module: TestingModule = await Test.createTestingModule({
+      // Provider is the service class and the mocks to each dependecy from constructor class
       providers: [UserService, userRepositoryMock],
     }).compile();
 
@@ -46,7 +47,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'exists').mockResolvedValueOnce(true);
 
       const result = await userService.getOne(
-        'afb97271-33bf-4784-a781-4da57b13f5a9',
+        '4439b775-9520-484e-9660-97f8635fa37d',
       );
       expect(result).toEqual(userEntityList[0]);
     });
@@ -64,7 +65,7 @@ describe('UserService', () => {
 
       const result = await userService.update(
         updateUserDTO,
-        'afb97271-33bf-4784-a781-4da57b13f5a9',
+        '4439b775-9520-484e-9660-97f8635fa37d',
       );
       expect(result).toEqual(userEntityList[0]);
     });
@@ -76,7 +77,7 @@ describe('UserService', () => {
 
       const result = await userService.updatePartial(
         updatePatchDTO,
-        'afb97271-33bf-4784-a781-4da57b13f5a9',
+        '4439b775-9520-484e-9660-97f8635fa37d',
       );
       expect(result).toEqual(userEntityList[0]);
     });
@@ -85,10 +86,10 @@ describe('UserService', () => {
   describe('Delete', () => {
     it('Method delete', async () => {
       jest.spyOn(userRepository, 'exists').mockResolvedValueOnce(true);
-      await userService.delete('afb97271-33bf-4784-a781-4da57b13f5a9');
+      await userService.delete('4439b775-9520-484e-9660-97f8635fa37d');
 
       expect(userRepository.delete).toHaveBeenCalledWith(
-        'afb97271-33bf-4784-a781-4da57b13f5a9',
+        '4439b775-9520-484e-9660-97f8635fa37d',
       );
       expect(userRepository.delete).toHaveBeenCalledTimes(1);
     });

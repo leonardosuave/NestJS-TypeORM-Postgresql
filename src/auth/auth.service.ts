@@ -8,12 +8,12 @@ import { AuthLoginDTO } from './dto/auth-login.dto';
 import { ForgetPasswordDTO } from './dto/forget-password.dto';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
-import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { MailerService } from '@nestjs-modules/mailer/dist';
-import { UserEntity } from 'src/user/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -135,6 +135,7 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterDTO) {
+    delete data.role;
     const user = await this.userService.create(data);
     return this.createToken(user);
   }
