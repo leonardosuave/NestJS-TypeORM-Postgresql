@@ -2,7 +2,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../user/entity/user.entity';
 import { userEntityList } from './user-entity-list.mock';
 
-//To create a mock, tahe the repository in test and the methods in used by the repository
+//To create a mock to the constructor dependency usersRepository from user.service and auth.service.
 
 export const userRepositoryMock = {
   provide: getRepositoryToken(UserEntity),

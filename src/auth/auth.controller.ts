@@ -16,12 +16,8 @@ import {
 import { AuthLoginDTO } from './dto/auth-login.dto';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { ForgetPasswordDTO } from './dto/forget-password.dto';
-import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { AuthStatusGuard } from 'src/guards/auth-status.guard';
-import { User } from 'src/decorators/user.decorator';
 import { UserMEPartialDTO } from './dto/get-user-by-token.dto';
 import {
   FileFieldsInterceptor,
@@ -29,7 +25,11 @@ import {
   FilesInterceptor,
 } from '@nestjs/platform-express';
 import { join } from 'path';
-import { FileService } from 'src/file/file.service';
+import { UserService } from '../user/user.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { User } from '../decorators/user.decorator';
+import { AuthStatusGuard } from '../guards/auth-status.guard';
+import { FileService } from '../file/file.service';
 
 @Controller('auth')
 export class AuthController {
@@ -63,8 +63,11 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('me')
-  async me(@User() user: UserMEPartialDTO | UserMEPartialDTO[]) {
-    return user;
+  async me(
+    @User() user: UserMEPartialDTO | UserMEPartialDTO[],
+    @Request() { userByToken },
+  ) {
+    return { ...user, userByToken };
   }
 
   @UseGuards(AuthStatusGuard)
@@ -90,17 +93,10 @@ export class AuthController {
     )
     photo: Express.Multer.File,
   ) {
-    const path = join(
-      __dirname,
-      '..',
-      '..',
-      'storage',
-      'photos',
-      `photo-${user.id}.png`,
-    );
+    const fileName = `photo-${user.id}.png`;
 
     try {
-      await this.fileService.upload(photo, path);
+      await this.fileService.upload(photo, fileName);
       return { status: 'success' };
     } catch (error) {
       throw new BadRequestException(error);

@@ -314,8 +314,8 @@ $ npm i typeorm pg @nestjs/typeorm
     - To create a module, create a const module with type TestingModule and call Test.createTestingModule({providers: []}). compile();
         providers: Is the services to test and mocks.
         compile() to the test module be existed.
-    - To create a Mock (simulate the constructor injectable from the service class), create a object with objects provide and useValue.
-        provide: It will pass getRepositoryToken() and this will received in parameter the entity  from the @InkectRepository fro the constructor class service. 
+    - To create a Mock (simulate the constructor injectable from the service class), create a mock file to each dependency from contructor service and create a object with provide and useValue. (If is a repository the provide need to be getRepositoryToken(Entity from repository))
+        provide: It will pass getRepositoryToken() if is repository and this will received in parameter the entity  from the @InjectRepository from the constructor class service. 
         useValue: It are all methods from repository called in the service, like userRepository is the called to database, so values are the methods create, save, find .....
           each value is a object with value jest.fn()
     Create de definition of the services imported on providers to have access the methods of the service
