@@ -24,8 +24,6 @@ import {
   FileInterceptor,
   FilesInterceptor,
 } from '@nestjs/platform-express';
-import { join } from 'path';
-import { UserService } from '../user/user.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../decorators/user.decorator';
 import { AuthStatusGuard } from '../guards/auth-status.guard';
@@ -35,7 +33,6 @@ import { FileService } from '../file/file.service';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService,
     private readonly fileService: FileService,
   ) {}
 
@@ -51,14 +48,12 @@ export class AuthController {
 
   @Post('forget-password')
   async forgetPassword(@Body() email: ForgetPasswordDTO) {
-    await this.authService.forgetPassword(email);
-    return;
+    return await this.authService.forgetPassword(email);
   }
 
   @Post('reset-password')
   async resetPassword(@Body() data: ResetPasswordDTO) {
-    await this.authService.resetPassword(data);
-    return;
+    return await this.authService.resetPassword(data);
   }
 
   @UseGuards(AuthGuard)

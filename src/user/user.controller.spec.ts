@@ -35,7 +35,7 @@ describe('UserController', () => {
 
   describe('Test guards applicated in this controller', () => {
     it('guards applicated', () => {
-      // To take the guards aftger compile, neet to pass __guards__ because is where is the guards
+      // To take the guards after compile, need to pass __guards__ because is where is the guards
       const guards = Reflect.getMetadata('__guards__', UserController);
 
       expect(guards.length).toEqual(2);
