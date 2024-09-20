@@ -324,3 +324,9 @@ $ npm i typeorm pg @nestjs/typeorm
       After extract the things from the service
         ex: userService = module.get<UserService>(UserService)
 
+## E2E Tests
+  To this test was create using a different database where each time that call the npm run test:e2e will run another commands from package.json to clear the database existing, set the config to use uuid_generate_v4() by a separate script, wil run the migrates and after run the tests e2e crating register, etc.
+  When the test finish will run another command to clear and drop the tables from database used to the tests.
+
+  OBS: To identify the database test in the commands from package.json, use the libary cross-env and pass this command beforer each execute a command in the scripts. Ex: cross-env ENV=test npm run clear:db:test.
+  This libary simulate differents envariorment to the same variables, using 2 or more .env files. After need configurate in data-source.ts and app.module.ts to use the .env file taking the values from the cross-env ENV='value neccessary'

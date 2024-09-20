@@ -11,7 +11,7 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -26,7 +26,9 @@
     "migration:create": "npm run typeorm:ts migration:create -- ./typeorm/migrations/Migrate",
     "migration:up": "npm run typeorm:ts migration:run -- -d ./typeorm/data-source.ts",
     "migration:down": "npm run typeorm:ts migration:revert -- -d ./typeorm/data-source.ts",
-    "seed:run": "ts-node -r tsconfig-paths/register src/seed/seed-runner.ts"
+    "seed:run": "ts-node -r tsconfig-paths/register src/seed/seed-runner.ts",
+    "preprod": "npm run format && npm run lint && npm run test && npm run test:e2e",
+    "prod": "npm run build"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
