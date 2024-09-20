@@ -329,4 +329,10 @@ $ npm i typeorm pg @nestjs/typeorm
   When the test finish will run another command to clear and drop the tables from database used to the tests.
 
   OBS: To identify the database test in the commands from package.json, use the libary cross-env and pass this command beforer each execute a command in the scripts. Ex: cross-env ENV=test npm run clear:db:test.
-  This libary simulate differents envariorment to the same variables, using 2 or more .env files. After need configurate in data-source.ts and app.module.ts to use the .env file taking the values from the cross-env ENV='value neccessary'
+  This libary simulate differents environment to the same variables, using 2 or more .env files. After need configurate in data-source.ts and app.module.ts to use the .env file taking the values from the cross-env ENV='value neccessary'
+
+## Build to PROD
+The command npm run prod will run a lot of command to check code format, unit test and tests e2e and if success will build a new dist with the files neccessary to run PROD.
+After run the command npm run start:prod and the application will work like prod environment.
+
+OBS: Put this command in pipeline to deploy automatically and run aplication in PROD.
