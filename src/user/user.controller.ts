@@ -22,24 +22,24 @@ import { Roles } from '../decorators/role.decorator';
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
 export class UserController {
-  constructor(private readonly UserService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Roles(Role.ADMIN, Role.MASTER)
   @Post()
   async create(@Body() data: CreateUserDTO) {
-    return this.UserService.create(data);
+    return this.userService.create(data);
   }
 
   @Roles(Role.ADMIN, Role.MASTER)
   @Get()
   async read() {
-    return this.UserService.list();
+    return this.userService.list();
   }
 
   @Get(':id')
   async readOne(@Param() param) {
     const { id } = param;
-    return this.UserService.getOne(id);
+    return this.userService.getOne(id);
   }
 
   @Roles(Role.ADMIN, Role.MASTER)
@@ -48,7 +48,7 @@ export class UserController {
     @Body() { email, name, password, role }: UpdatePatchUserDTO,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.UserService.updatePartial({ email, name, password, role }, id);
+    return this.userService.updatePartial({ email, name, password, role }, id);
   }
 
   @Roles(Role.ADMIN, Role.MASTER)
@@ -57,12 +57,12 @@ export class UserController {
     @Body() data: UpdateUserDTO,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.UserService.update(data, id);
+    return this.userService.update(data, id);
   }
 
   @Roles(Role.ADMIN, Role.MASTER)
   @Delete(':id')
   async delete(@Param('id', ParseUUIDPipe) id: string) {
-    return this.UserService.delete(id);
+    return this.userService.delete(id);
   }
 }
