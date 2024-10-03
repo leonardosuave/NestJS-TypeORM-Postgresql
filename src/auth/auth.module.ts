@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileModule } from '../file/file.module';
 import { UserModule } from '../user/user.module';
 import { UserEntity } from '../user/entity/user.entity';
+import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserEntity } from '../user/entity/user.entity';
     }),
     forwardRef(() => UserModule),
     FileModule,
+    FirebaseModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

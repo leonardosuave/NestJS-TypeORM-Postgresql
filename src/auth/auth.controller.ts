@@ -28,12 +28,14 @@ import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../decorators/user.decorator';
 import { AuthStatusGuard } from '../guards/auth-status.guard';
 import { FileService } from '../file/file.service';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly fileService: FileService,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   @Post('login')
@@ -69,6 +71,31 @@ export class AuthController {
   @Get('me/status')
   async meStatus(@Request() request) {
     return { status: request.userStatus };
+  }
+
+  // ========== FIREBASE =========
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(AuthGuard)
+  @Post('firebase-photo')
+  async uploadPhotoFirebase(
+    @User() user: UserMEPartialDTO,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: 'image/png' }),
+          new MaxFileSizeValidator({ maxSize: 1024 * 70 }),
+        ],
+      }),
+    )
+    photo: Express.Multer.File,
+  ) {
+    try {
+      const destination = `users/${user.id}/${Date.now()}.png`;
+
+      return await this.firebaseService.uploadFile(photo.buffer, destination);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   // ========== Upload images and files ==========
