@@ -14,6 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entity/user.entity';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
     private readonly mailer: MailerService,
+    private readonly firebase: FirebaseService,
   ) {}
 
   createToken(user: UserEntity) {
@@ -137,6 +139,13 @@ export class AuthService {
   async register(data: AuthRegisterDTO) {
     delete data.role;
     const user = await this.userService.create(data);
+
+    // Esta criando usuário de acesso em authentication ao invés do firestore database
+    // const userFirebase = await this.firebase.createUser(
+    //   data.email,
+    //   data.password,
+    // );
+
     return this.createToken(user);
   }
 }

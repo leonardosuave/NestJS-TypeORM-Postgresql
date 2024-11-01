@@ -10,6 +10,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/entity/user.entity';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserEntity } from './user/entity/user.entity';
       ttl: 60,
       limit: 100,
     }),
+    FirebaseModule,
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
     MailerModule.forRoot({

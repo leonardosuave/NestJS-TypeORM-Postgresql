@@ -7,6 +7,7 @@ import { mailerServiceMock } from '../testing/mailer-service.mock';
 import { userEntityList } from '../testing/user-entity-list.mock';
 import { accessToken, jwtPayload, resetToken } from '../testing/token.mock';
 import { registerAuthDTO } from '../testing/auth-register-dto.mock';
+import { firebaseRepositoryMock } from '../testing/firebase-repository.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -22,6 +23,7 @@ describe('AuthService', () => {
         jwtServiceMock,
         userServiceMock,
         mailerServiceMock,
+        firebaseRepositoryMock,
       ],
     }).compile();
 
