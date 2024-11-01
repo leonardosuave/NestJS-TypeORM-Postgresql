@@ -14,6 +14,7 @@ import {
   authStatusGuardMock,
   requestAuthStatusGuardMock,
 } from '../testing/auth-status-guard.mock';
+import { firebaseRepositoryMock } from '../testing/firebase-repository.mock';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -21,7 +22,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [authServiceMock, fileServiceMock],
+      providers: [authServiceMock, fileServiceMock, firebaseRepositoryMock],
     })
       .overrideGuard(AuthGuard)
       .useValue(guardMock)

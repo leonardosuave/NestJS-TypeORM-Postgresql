@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -39,5 +39,30 @@ export class FirebaseService {
         reject(error);
       });
     });
+  }
+
+  async updateSelectPhoto(destination: string, fileName: string) {
+    const fileType = fileName.split('.').pop();
+    const newName = `${Date.now()}.${fileType}`;
+
+    const bucket = this.firebaseAdmin.storage().bucket();
+    const oldFile = bucket.file(destination + fileName);
+    const newFile = bucket.file(destination + newName);
+
+    await oldFile.copy(newFile);
+    await oldFile.delete();
+  }
+
+  async deletePhoto(destination: string) {
+    const bucket = this.firebaseAdmin.storage().bucket();
+    await bucket.file(destination).delete();
+  }
+
+  async getFilesPath(userId: string) {
+    const bucket = this.firebaseAdmin.storage().bucket();
+    const [files] = await bucket.getFiles({
+      prefix: `${process.env.ENV}/users/${userId}`,
+    });
+    return files.map((file) => file.name);
   }
 }
