@@ -5,6 +5,7 @@ import { AppModule } from './../src/app.module';
 import { registerAuthDTO } from '../src/testing/auth-register-dto.mock';
 import { Role } from '../src/enums/role.enum';
 import dataSource from '../typeorm/data-source';
+import * as admin from 'firebase-admin';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -20,8 +21,14 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     app.close();
+
+    // Its neccessary delete firebase instancy each test because the beforeEach build the AppModule to each test and will return error when build the second time because the firebase instancy will be opened.
+    //So Delete here or add check in firebase module to open intancy only if admin.app.length === 0 and return admin.app() when length !== 0.
+    if (admin.apps.length > 0) {
+      await admin.app().delete();
+    }
   });
 
   it('/ (GET)', () => {
